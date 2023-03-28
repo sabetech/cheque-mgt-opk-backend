@@ -25,6 +25,8 @@ class ChequeController extends Controller
      */
     public function store(Request $request)
     {
+
+        dd($request->all());
         //receive the request to create a new cheque
         //validate the request data
         $request->validate([
@@ -36,17 +38,16 @@ class ChequeController extends Controller
             'status' => 'required',
         ]);
 
-        //create the cheque
-        //return the cheque as a resource
+        $path = $request->image->store('images');
 
         $cheque = new Cheque;
         $cheque->amount = $request->input('amount');
         $cheque->serial_no = $request->input('cheque_number');
         $cheque->date_issued = $request->input('cheque_date');
         $cheque->date_due = $request->input('cheque_date_due');
-        $cheque->img_url = $request->input('cheque_image');
-        $cheque->status = $request->input('status');
-        $cheque->user_id = $request->input('user_id');
+        $cheque->img_url = $path;
+        $cheque->status = 'pending';
+        $cheque->user_id = $request->user()->id;
         $cheque->save();
 
         return response()->json([
