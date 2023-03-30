@@ -22,13 +22,14 @@ return [
     'allowed_origins' => ['*'],
 
     'allowed_origins_patterns' => [],
-
-    'allowed_headers' => ['Access-Control-Allow-Headers', 'X-Requested-With', 'Origin', 'X-Csrftoken', 'Content-Type', 'Accept', 'Authorization'],
+    
+    'allowed_headers' => ['Content-Type', 'X-Auth-Token', 'Origin', 'Authorization', 'Accept', 'X-Csrftoken'],
+    //'allowed_headers' => ['Access-Control-Allow-Headers', 'X-Requested-With', 'Origin', 'X-Csrftoken', 'Content-Type', 'Accept', 'Authorization'],
 
     'exposed_headers' => [],
 
     'max_age' => 0,
 
-    'supports_credentials' => true,
+    'supports_credentials' => false,
 
 ];

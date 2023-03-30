@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Cheque;
 use App\Http\Resources\ChequeResource;
 use Illuminate\Http\Request;
+use Log;
+use Auth;
 
 class ChequeController extends Controller
 {
@@ -14,7 +16,7 @@ class ChequeController extends Controller
     public function index()
     {
         //Get all cheques
-        $cheques = Cheque::all();
+        $cheques = Cheque::with('user')->get();
 
         //Return the cheques as a resource
         return ChequeResource::collection($cheques);
@@ -26,19 +28,9 @@ class ChequeController extends Controller
     public function store(Request $request)
     {
 
-        dd($request->all());
-        //receive the request to create a new cheque
-        //validate the request data
-        $request->validate([
-            'amount' => 'required',
-            'cheque_number' => 'required',
-            'cheque_date' => 'required',
-            'cheque_date_due' => 'required',   
-            'cheque_image' => 'required',
-            'status' => 'required',
-        ]);
-
-        $path = $request->image->store('images');
+        if ($request->file('image')) {
+            $path = $request->file('image')->store('public/cheques');
+        }
 
         $cheque = new Cheque;
         $cheque->amount = $request->input('amount');
@@ -79,6 +71,11 @@ class ChequeController extends Controller
     public function update(Request $request, Cheque $cheque)
     {
         //
+        $cheque->update($request->all());
+        return response()->json([
+            'message' => 'Cheque updated successfully',
+            'data' => $cheque
+        ], 201);
     }
 
     /**
@@ -87,5 +84,10 @@ class ChequeController extends Controller
     public function destroy(Cheque $cheque)
     {
         //
+        $cheque->delete();
+        return response()->json([
+            'message' => 'Cheque deleted successfully',
+            'data' => $cheque
+        ], 201);
     }
 }
