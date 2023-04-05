@@ -23,6 +23,18 @@ class ChequeController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     */
+    public function show($id)
+    {
+        //Get the cheque
+        $cheque = Cheque::with('user')->findOrFail($id);
+
+        //Return the cheque as a resource
+        return new ChequeResource($cheque);
+    }
+
+    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
@@ -41,28 +53,12 @@ class ChequeController extends Controller
         $cheque->status = 'pending';
         $cheque->user_id = $request->user()->id;
         $cheque->save();
+        $cheque->user;
 
         return response()->json([
             'message' => 'Cheque created successfully',
             'data' => $cheque
         ], 201);
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Cheque $cheque)
-    {
-        //
-        
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Cheque $cheque)
-    {
-        //
     }
 
     /**
@@ -86,8 +82,7 @@ class ChequeController extends Controller
         //
         $cheque->delete();
         return response()->json([
-            'message' => 'Cheque deleted successfully',
-            'data' => $cheque
+            'message' => 'Cheque deleted successfully'
         ], 201);
     }
 }
