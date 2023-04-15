@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 class AuthController extends Controller
 {
@@ -25,6 +26,9 @@ class AuthController extends Controller
         ]);
 
         $token = $user->createToken('myapptoken')->plainTextToken;
+
+        $role = Role::create(['name' => 'admin']);
+        $user->assignRole('admin');
 
         $response = [
             'user' => $user,
@@ -62,7 +66,8 @@ class AuthController extends Controller
 
         $token = $user->createToken('myapptoken')->plainTextToken;
 
-        $user->role = $user->roles->first()->name;
+        if ($user->hasRole(['clerk', 'admin']))
+            $user->role = $user->roles->first()->name;
 
         $response = [
             'user' => $user,
