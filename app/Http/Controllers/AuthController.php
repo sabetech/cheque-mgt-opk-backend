@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
@@ -35,8 +36,7 @@ class AuthController extends Controller
             'token' => $token
         ];
 
-        return response($response, 201);
-
+        return response()->json($response, 201);
     }
 
     public function logout(Request $request) {

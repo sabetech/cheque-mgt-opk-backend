@@ -46,6 +46,7 @@ class ChequeController extends Controller
 
         $cheque = new Cheque;
         $cheque->amount = $request->input('amount');
+        $cheque->cheque_holder_name = $request->input('cheque_holder_name');
         $cheque->serial_no = $request->input('serial_no');
         $cheque->date_issued = $request->input('date_issued');
         $cheque->date_due = $request->input('date_due');
@@ -66,8 +67,6 @@ class ChequeController extends Controller
      */
     public function update(Request $request, Cheque $cheque)
     {
-        //
-        Log::Info("HELLOW GOT HERE");
         Log::info($request->all());
 
         $cheque->update($request->all());
