@@ -20,6 +20,14 @@ class AuthController extends Controller
             'password' => 'required|string'
         ]);
 
+       //if User exists, return error
+        $user = User::where('email', $fields['email'])->first();
+        if ($user) {
+            return response([
+                'error' => 'User already exists. Login instead'
+            ], 401);
+        }
+
         $user = User::create([
             'name' => $fields['name'],
             'email' => $fields['email'],
