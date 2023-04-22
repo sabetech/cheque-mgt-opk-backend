@@ -16,10 +16,9 @@ class AuthController extends Controller
     public function register(Request $request) {
         $fields = $request->validate([
             'name' => 'required|string',
-            'email' => 'required|string|unique:users,email',
+            'email' => 'required|string',
             'password' => 'required|string'
         ]);
-
        //if User exists, return error
         $user = User::where('email', $fields['email'])->first();
         if ($user) {
