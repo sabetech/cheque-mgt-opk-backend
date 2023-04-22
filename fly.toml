@@ -1,0 +1,38 @@
+# fly.toml app configuration file generated for cheque-mgt on 2023-04-21T14:40:56Z
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = "cheque-mgt"
+primary_region = "sea"
+
+[build]
+  [build.args]
+    NODE_VERSION = "18"
+    PHP_VERSION = "8.2"
+
+[env]
+  APP_ENV = "production"
+  APP_URL="https://cheque-mgt.fly.dev"
+  LOG_CHANNEL = "stderr"
+  LOG_LEVEL = "info"
+  LOG_STDERR_FORMATTER = "Monolog\\Formatter\\JsonFormatter"
+  DB_CONNECTION="mysql"
+  DB_HOST="45.33.78.74"
+  DB_PORT="3306"
+  DB_DATABASE="cheque_opk_db"
+  DB_USERNAME="oppongk_db_user"
+  DB_PASSWORD="blender3D"
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true
+
+[checks]
+  [checks.alive]
+    type = "tcp"
+    interval = "15s"
+    timeout = "2s"
+    grace_period = "5s"
