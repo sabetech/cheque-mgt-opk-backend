@@ -7,6 +7,7 @@ use App\Http\Resources\ChequeResource;
 use Illuminate\Http\Request;
 use Log;
 use Auth;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 class ChequeController extends Controller
 {
@@ -40,8 +41,9 @@ class ChequeController extends Controller
     public function store(Request $request)
     {
 
+        $uploadedFileUrl = "";
         if ($request->file('image')) {
-            $path = $request->file('image')->store('public/cheques');
+            $uploadedFileUrl = Cloudinary::upload($request->file('image')->getRealPath())->getSecurePath();
         }
 
         $cheque = new Cheque;
@@ -50,7 +52,7 @@ class ChequeController extends Controller
         $cheque->serial_no = $request->input('serial_no');
         $cheque->date_issued = $request->input('date_issued');
         $cheque->date_due = $request->input('date_due');
-        $cheque->img_url = $path;
+        $cheque->img_url = $uploadedFileUrl;
         $cheque->status = 'pending';
         $cheque->user_id = $request->user()->id;
         $cheque->save();
