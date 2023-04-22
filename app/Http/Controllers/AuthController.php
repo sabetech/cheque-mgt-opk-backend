@@ -35,7 +35,6 @@ class AuthController extends Controller
 
         $token = $user->createToken('myapptoken')->plainTextToken;
 
-        $role = Role::create(['name' => 'admin']);
         $user->assignRole('admin');
 
         $response = [
