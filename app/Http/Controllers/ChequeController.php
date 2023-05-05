@@ -40,6 +40,14 @@ class ChequeController extends Controller
      */
     public function store(Request $request)
     {
+        //check if check exists
+        $cheque = Cheque::where('serial_no', $request->input('serial_no'))->first();
+        if ($cheque) {
+            return response()->json([
+                'message' => 'Cheque already exists',
+                'data' => $cheque
+            ], 201);
+        }
 
         $uploadedFileUrl = "";
         if ($request->file('image')) {
