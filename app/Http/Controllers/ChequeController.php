@@ -17,7 +17,7 @@ class ChequeController extends Controller
     public function index()
     {
         //Get all cheques
-        $cheques = Cheque::with('user')->get();
+        $cheques = Cheque::whereNot('status', 'Cleared')->with('user')->get();
 
         //Return the cheques as a resource
         return ChequeResource::collection($cheques);
