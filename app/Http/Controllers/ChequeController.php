@@ -45,7 +45,8 @@ class ChequeController extends Controller
         if ($cheque) {
             return response()->json([
                 'message' => 'Cheque already exists',
-                'data' => $cheque
+                'data' => $cheque,
+                'status' => 'error'
             ], 201);
         }
 
@@ -68,6 +69,7 @@ class ChequeController extends Controller
 
         return response()->json([
             'message' => 'Cheque created successfully',
+            'status' => 'success',
             'data' => $cheque
         ], 201);
     }
