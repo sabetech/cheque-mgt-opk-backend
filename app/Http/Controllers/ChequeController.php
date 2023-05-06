@@ -44,9 +44,9 @@ class ChequeController extends Controller
         $cheque = Cheque::where('serial_no', $request->input('serial_no'))->first();
         if ($cheque) {
             return response()->json([
-                'message' => 'Cheque already exists',
+                'message' => "Cheque with serial <" . $request->input('serial_no') . "> already exists",
                 'data' => $cheque,
-                'status' => 'error'
+                'success' => false
             ], 201);
         }
 
@@ -68,8 +68,8 @@ class ChequeController extends Controller
         $cheque->user;
 
         return response()->json([
-            'message' => 'Cheque created successfully',
-            'status' => 'success',
+            'message' => "Cheque created successfully",
+            'success' => true,
             'data' => $cheque
         ], 201);
     }
@@ -79,12 +79,12 @@ class ChequeController extends Controller
      */
     public function update(Request $request, Cheque $cheque)
     {
-        Log::info($request->all());
-
+     
         $cheque->update($request->all());
         return response()->json([
             'message' => 'Cheque updated successfully',
-            'data' => $cheque
+            'data' => $cheque,
+            'success' => true
         ], 201);
     }
 
@@ -96,7 +96,8 @@ class ChequeController extends Controller
         //
         $cheque->delete();
         return response()->json([
-            'message' => 'Cheque deleted successfully'
+            'message' => 'Cheque deleted successfully',
+            'success' => true
         ], 201);
     }
 }
