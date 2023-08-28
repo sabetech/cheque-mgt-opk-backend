@@ -73,7 +73,7 @@ class UserController extends Controller
         $user->assignRole($request->input('role'));
 
         $user->save();
-
+        11                  
         return response()->json([
             'message' => 'User updated successfully',
             'data' => $user
